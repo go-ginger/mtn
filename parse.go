@@ -41,6 +41,7 @@ func (p *Parser) iterate(data map[string]interface{}, existingParams map[string]
 		prefix = extra[0]
 	}
 	for k, v := range data {
+		k = strings.Replace(k, ".", "$", -1)
 		paramKey := p.getKey(k, params)
 		if prefix != nil {
 			k = fmt.Sprintf("%v%s", prefix, k)
@@ -93,7 +94,7 @@ func (p *Parser) iterate(data map[string]interface{}, existingParams map[string]
 			}
 		}
 	}
-	if queryItems != nil {
+	if queryItems != nil && len(queryItems) > 0 {
 		queryItems = []string{"(" + strings.Join(queryItems, ") AND (") + ")"}
 	}
 	return queryItems, params
